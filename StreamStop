@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if pgrep mjpg_streamer >/dev/null
+then
+  kill $(pgrep mjpg_streamer) > /dev/null
+  echo "mjpg_streamer stopped"
+else
+  echo "mjpg_streamer was not running"
+fi

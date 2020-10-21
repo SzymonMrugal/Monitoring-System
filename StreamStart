@@ -1,0 +1,11 @@
+#!/bin/bash
+ 
+if pgrep mjpg_streamer > /dev/null
+then
+  echo "mjpg_streamer already running"
+else
+  cd /opt/mjpg-streamer/
+  ./mjpg_streamer -i "./input_uvc.so -f 10 -r 640x480" -o "./output_http.so -w ./www" > /dev/null 2>&1&
+
+  echo "mjpg_streamer started"
+fi

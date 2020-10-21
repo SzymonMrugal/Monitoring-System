@@ -1,0 +1,64 @@
+#!/bin/bash
+
+#################################
+# Monitoring System Execution   #
+#                               #
+# Author: Szymon Mrugal         #
+# last modified: 02.01.2019     #
+#################################
+
+
+
+
+#--------Program Parameters--------#
+
+#camera path
+#putting a device path disables streaming
+#from mjpg_streamer - "http://localhost:8080/?action=stream"
+#from device - "/dev/video0"
+CAMERA_PATH="http://localhost:8080/?action=stream"
+
+
+#output of motion detector
+ROOTPATH="/home/pi/Desktop/MotDet_out/"
+FILENAME="__out.avi";
+
+#frames per second
+FPS=10
+
+#frames saved before movement detection
+PRESAVE=10
+
+#frames saved after movement detection
+POSTSAVE=10
+
+#how many frames need to be in motion to determine movement
+maxMotion=4
+
+#Should e-mail be sent when motion is detected
+#1-yes , 0-no
+#To change sending parameters, check SendEmail file.
+sendNotif=1
+
+
+
+#--------Program Execution--------#
+
+if [[ $CAMERA_PATH == "/dev/"* ]]
+then
+	echo "Stream is not needed"
+else
+	cd /home/pi/ocv-test/motion3
+	./StreamStart
+	sleep 1
+fi
+
+if pgrep motion3 > /dev/null
+then
+	echo "Moniotoring system already running"
+else
+	cd /home/pi/ocv-test/motion3
+	./motion3 ${CAMERA_PATH} ${ROOTPATH} ${FILENAME} ${FPS} ${PRESAVE} ${POSTSAVE} ${maxMotion} ${sendNotif} >/dev/null &
+	echo "Monitoring system started"
+fi
+

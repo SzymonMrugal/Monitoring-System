@@ -1,0 +1,10 @@
+#!/bin/bash
+
+EMAIL="example@mail.com"
+SUBJECT="Something moved!! on $(date +%Y%h%d) $(date +%T)"
+
+
+
+mpack -s "${SUBJECT}" "$1" ${EMAIL}
+
+echo Email sent

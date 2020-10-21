@@ -1,0 +1,15 @@
+#!/bin/bash
+
+/home/pi/ocv-test/motion3/StreamStop
+
+
+Program="motion3"
+
+if pgrep ${Program} > /dev/null
+then
+  kill $(pgrep $Program) > /dev/null 
+  echo "$Program stopped"
+else
+  echo "$Program was not running"
+fi
+
